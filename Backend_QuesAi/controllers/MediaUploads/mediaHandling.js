@@ -210,9 +210,30 @@ const updatePodcast = async (req, res) => {
   }
 };
 
-module.exports = { updatePodcast };
+
+// get all projects
+const getAllProjects = async (req, res) => {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: "Unauthorized user" });
+    }
+
+    const projects = await Project.find({ createdBy: req.user.id });
+
+    return res.status(200).json({
+      message: "Projects retrieved successfully",
+      projects,
+    });
+  } catch (error) {
+    console.error("Error retrieving projects:", error);
+    return res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
 
 
 
 
-module.exports = { createNewProject, uploadPodcast , deletePodcast, updatePodcast };
+module.exports = { createNewProject, uploadPodcast , deletePodcast, updatePodcast, getAllProjects };
