@@ -22,3 +22,9 @@ export const formatTimeAgo = (dateString) => {
 
   return 'just now';
 };
+
+export const handleLogOut = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("login");
+  window.location.href = "/";
+};

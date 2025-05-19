@@ -1,9 +1,17 @@
 import { PlusCircleIcon } from "lucide-react";
 import { formatTimeAgo } from "../../../constants/utility";
 import "./ProjectList.css";
-
+import { useNavigate } from "react-router";
 
 const ProjectList = ({ projects, handleModal }) => {
+  const navigate = useNavigate();
+
+  const handleProjectClick = (project) => {
+    console.log("Clicked project:", project); 
+    navigate(`/projects/${project._id}/upload`, {
+      state: { projectName: project.projectName },
+    });
+  };
   if (!projects) {
     return (
       <div className="no-projects">
@@ -33,14 +41,20 @@ const ProjectList = ({ projects, handleModal }) => {
 
       <ul className="projects-list">
         {recentProjects.map((project) => (
-          <li key={project._id} className="project-card">
+          <li
+            key={project._id}
+            className="project-card"
+            onClick={() => handleProjectClick(project)}
+          >
             <div className="project-avatar">
               {project.projectName.slice(0, 2).toUpperCase()}
             </div>
             <div className="project-info">
               <h3 className="project-name">{project.projectName}</h3>
               <p>{project.podcastLinks?.length || 0} Files</p>
-              <span className="project-updated">Last edited {formatTimeAgo(project.lastEdited)}</span>
+              <span className="project-updated">
+                Last edited {formatTimeAgo(project.lastEdited)}
+              </span>
             </div>
           </li>
         ))}

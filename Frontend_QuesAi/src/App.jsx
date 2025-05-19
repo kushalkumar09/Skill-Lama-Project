@@ -8,6 +8,7 @@ import Login from "./Pages/Authentication/Login";
 import Signup from "./Pages/Authentication/SignUp";
 import UnknownRoutes from "./Pages/UnknownRoutes";
 import Home from "./Pages/home/Home";
+import AddPodcast from "./Pages/PodCast/AddPodCast";
 
 function App() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
@@ -22,24 +23,16 @@ function App() {
       {/* Auth Routes */}
       <Route
         path="/userlogin"
-        element={
-          isLoggedIn ? <Navigate to="/" replace /> : <Login />
-        }
+        element={isLoggedIn ? <Navigate to="/" replace /> : <Login />}
       />
       <Route
         path="/usersignup"
-        element={
-          isLoggedIn ? <Navigate to="/" replace /> : <Signup />
-        }
+        element={isLoggedIn ? <Navigate to="/" replace /> : <Signup />}
       />
 
       {/* Protected Home Route */}
-      <Route
-        path="/"
-        element={
-          <Home/>
-        }
-      />
+      <Route path="/" element={<Home />} />
+      <Route path="/projects/:projectId/upload" element={<AddPodcast />} />
 
       {/* Fallback Route */}
       <Route path="*" element={<UnknownRoutes />} />

@@ -13,6 +13,11 @@ export const ProjectEndPoints = {
     endPoint: `${projectUrl}/create-newproject`,
     method: "POST",
   },
+
+  UploadPodcast: {
+    endPoint: (projectId) => `${projectUrl}/${projectId}/upload`,
+    method: "POST",
+  },
 };
 
 export const AuthEndPoints = {
@@ -23,5 +28,10 @@ export const AuthEndPoints = {
   Login: {
     endPoint: `${authUrl}/userlogin`,
     method: "POST",
+  },
+
+  GetUserDetails: {
+    endPoint: `${authUrl}/userDetails`,
+    method: "GET",
   },
 };
