@@ -5,7 +5,6 @@ import Topbar from "./components/Topbar.jsx";
 import UploadOptionCard from "./components/UploadOptionCard.jsx";
 import FileList from "./components/FileList.jsx";
 import FileUpload from "./components/FileUpload.jsx";
-import YoutubeUploadModal from "./Modals/YouTubeModal/YouTubeUploadModal.jsx";
 import YouTubeIcon from "../../assets/images/YoutubeIcon.svg";
 import RssFeedIcon from "../../assets/images/RssFeedIcon.svg";
 import UploadFileIcon from "../../assets/images/UploadFileIcon.svg";
@@ -14,6 +13,7 @@ import { AuthEndPoints, ProjectEndPoints } from "../../constants/endpoints.js";
 import "./styles/styles.css";
 import EditTranscript from "./components/EditTranscript.jsx";
 import AccountSettings from "./components/AccountSettings.jsx";
+import YoutubeUploadModal from "./Modals/YouTubeModal/YoutubeUploadModal.jsx"
 
 const AddPodcast = () => {
   const { projectId } = useParams();
