@@ -6,7 +6,7 @@ import {
   SettingsIcon,
   UserSquareIcon,
 } from "lucide-react";
-import logo from "../../../assets/images/logo.svg";
+import logo from "../../../assets/images/Logo.svg";
 import "../styles/styles.css";
 
 const Sidebar = ({openUserSetting,userInfo}) => { 
