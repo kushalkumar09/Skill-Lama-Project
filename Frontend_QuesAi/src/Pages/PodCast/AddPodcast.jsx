@@ -5,7 +5,7 @@ import Topbar from "./components/Topbar.jsx";
 import UploadOptionCard from "./components/UploadOptionCard.jsx";
 import FileList from "./components/FileList.jsx";
 import FileUpload from "./components/FileUpload.jsx";
-import YouTubeIcon from "../../assets/images/YoutubeIcon.svg";
+import YouTubeIcon from "../../assets/images/youTubeIcon.svg";
 import RssFeedIcon from "../../assets/images/RssFeedIcon.svg";
 import UploadFileIcon from "../../assets/images/UploadFileIcon.svg";
 import useFetchData from "../../hooks/useFetchData.jsx";
