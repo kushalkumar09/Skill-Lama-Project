@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { X } from "lucide-react";
-import YouTubeIcon from "../../../../assets/images/youtubeIcon.svg";
+import YouTubeIcon from "../../../../assets/images/youTubeIcon.svg";
 import "./YoutubeUploadModal.css";
 
 const YoutubeUploadModal = ({onClose, onUpload }) => {
