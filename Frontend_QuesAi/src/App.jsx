@@ -2,13 +2,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 
 import { AuthContext } from "./contexts/AuthContext";
-import Protected from "./components/Protected";
-
 import Login from "./Pages/Authentication/Login";
 import Signup from "./Pages/Authentication/SignUp";
 import UnknownRoutes from "./Pages/UnknownRoutes";
 import Home from "./Pages/home/Home";
-import AddPodcast from "./Pages/PodCast/AddPodCast";
+import AddPodcast from "./Pages/PodCast/AddPodcast.jsx";
 
 function App() {
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
