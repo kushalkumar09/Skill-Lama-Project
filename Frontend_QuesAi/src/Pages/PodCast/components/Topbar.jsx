@@ -1,9 +1,12 @@
-import { Bell, LogOut } from "lucide-react";
+import { Bell, HomeIcon, LogOut } from "lucide-react";
 import { handleLogOut } from "../../../constants/utility";
-const Topbar = ({ProjectName}) => (
+import { Link } from "react-router";
+const Topbar = ({ ProjectName }) => (
   <div className="topbar">
     <p>
-      <span className="breadcrumb">Home Page / {ProjectName} /</span>{" "}
+      <span className="breadcrumb">
+        <Link to="/"><HomeIcon size={14} strokeWidth={3}/>Home Page</Link> / {ProjectName} /
+      </span>{" "}
       <strong>Add your podcast</strong>
     </p>
     <div className="icons">
@@ -11,7 +14,7 @@ const Topbar = ({ProjectName}) => (
         <Bell />
       </button>
       <button onClick={handleLogOut} className="icon">
-        <LogOut color="red"/>
+        <LogOut color="red" />
       </button>
     </div>
   </div>

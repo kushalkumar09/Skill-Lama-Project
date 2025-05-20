@@ -9,6 +9,10 @@ export const ProjectEndPoints = {
     endPoint: `${projectUrl}/getAllProjects`,
     method: "GET",
   },
+  GetPodcastEpisodes: {
+    endPoint: (projectId) => `${projectUrl}/${projectId}/getEpisodes`,
+    method: "GET",
+  },
   CreateProject: {
     endPoint: `${projectUrl}/create-newproject`,
     method: "POST",
@@ -17,6 +21,17 @@ export const ProjectEndPoints = {
   UploadPodcast: {
     endPoint: (projectId) => `${projectUrl}/${projectId}/upload`,
     method: "POST",
+  },
+
+  DeletePodcast: {
+    endPoint: (projectId, podcastId) =>
+      `${projectUrl}/${projectId}/podcast/${podcastId}`,
+    method: "DELETE",
+  },
+  UpdatePodcast: {
+    endPoint: (projectId, podcastId) =>
+      `${projectUrl}/${projectId}/podcast/${podcastId}`,
+    method: "PATCH",
   },
 };
 

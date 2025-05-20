@@ -8,36 +8,8 @@ import {
 } from "lucide-react";
 import logo from "../../../assets/images/logo.svg";
 import "../styles/styles.css";
-import { useEffect, useState } from "react";
-import { AuthEndPoints } from "../../../constants/endpoints";
 
-const Sidebar = () => {
-  const [userInfo, setUserInfo] = useState(null);
-
-  const { endPoint, method } = AuthEndPoints.GetUserDetails;
-
-  useEffect(() => {
-    const getUserInfo = async () => {
-      try {
-        const response = await fetch(endPoint, {
-          method,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch user info");
-        }
-        const data = await response.json();
-        setUserInfo(data.user);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-        alert("Failed to fetch user info. Please try again.");
-      }
-    };
-    getUserInfo();
-  }, []);
+const Sidebar = ({openUserSetting,userInfo}) => { 
 
   return (
     <aside className="sidebar">
@@ -68,7 +40,7 @@ const Sidebar = () => {
         <SettingsIcon size={14} /> <span>Help</span>
       </div>
       <hr />
-      <div className="user-info">
+      <div className="user-info" onClick={openUserSetting}>
         <UserSquareIcon size={40} />
         <div className="user-details">
           <p>{userInfo?.username ?? "User Name"}</p>

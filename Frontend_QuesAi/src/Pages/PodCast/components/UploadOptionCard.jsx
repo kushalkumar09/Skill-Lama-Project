@@ -1,5 +1,5 @@
-const UploadOptionCard = ({ title, icon , openModal}) => (
-  <div className="upload-card" onClick={openModal}>
+const UploadOptionCard = ({ title, icon , onClick}) => (
+  <div className="upload-card" onClick={onClick}>
     <div>
       <h3>{title}</h3>
       <p>Lorem ipsum dolor sit.</p>

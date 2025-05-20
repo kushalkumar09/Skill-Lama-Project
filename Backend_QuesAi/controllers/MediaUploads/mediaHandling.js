@@ -3,9 +3,11 @@ const Project = require("../../model/projects.model");
 const createNewProject = async (req, res) => {
   try {
     const { projectName } = req.body;
-    console.log(req.user)
+    console.log(req.user);
     if (!req.user || !req.user.id) {
-      return res.status(401).json({ message: "Unauthorized User to create project" });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized User to create project" });
     }
 
     if (!projectName) {
@@ -20,7 +22,9 @@ const createNewProject = async (req, res) => {
     });
 
     if (existingProject) {
-      return res.status(409).json({ message: "You already have a project with this name" });
+      return res
+        .status(409)
+        .json({ message: "You already have a project with this name" });
     }
 
     const newProject = new Project({
@@ -37,7 +41,7 @@ const createNewProject = async (req, res) => {
     });
   } catch (error) {
     console.error("Error creating project:", error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       message: "Server error",
       error: error.message,
     });
@@ -47,10 +51,12 @@ const createNewProject = async (req, res) => {
 const uploadPodcast = async (req, res) => {
   try {
     const { podcastName, podcastTranscript } = req.body;
-    console.log(podcastName,podcastTranscript)
+    console.log(podcastName, podcastTranscript);
 
     if (!req.user || !req.user.id) {
-      return res.status(401).json({ message: "User not authorized to upload podcast" });
+      return res
+        .status(401)
+        .json({ message: "User not authorized to upload podcast" });
     }
 
     if (!podcastName || !podcastTranscript) {
@@ -68,19 +74,25 @@ const uploadPodcast = async (req, res) => {
 
     // check if a podcast with the same name already exists
     const alreadyExists = project.podcastLinks.some(
-      (podcast) => podcast.podcastName.trim().toLowerCase() === podcastName.trim().toLowerCase()
+      (podcast) =>
+        podcast.podcastName.trim().toLowerCase() ===
+        podcastName.trim().toLowerCase()
     );
 
     if (alreadyExists) {
-      return res.status(409).json({ message: "Podcast with this name already exists in the project" });
+      return res
+        .status(409)
+        .json({
+          message: "Podcast with this name already exists in the project",
+        });
     }
 
     project.podcastLinks.push({
       podcastName: podcastName.trim(),
       podcastTranscript: podcastTranscript.trim(),
     });
-    
-    // updating Project 
+
+    // updating Project
     const updatedProject = await project.save();
 
     return res.status(200).json({
@@ -98,14 +110,16 @@ const uploadPodcast = async (req, res) => {
 
 const deletePodcast = async (req, res) => {
   try {
-    const { projectId, podcastName } = req.params;
+    const { projectId, podcastId } = req.params;
 
     if (!req.user || !req.user.id) {
-      return res.status(401).json({ message: "User not authorized to delete podcast" });
+      return res
+        .status(401)
+        .json({ message: "User not authorized to delete podcast" });
     }
 
-    if (!podcastName) {
-      return res.status(400).json({ message: "Podcast name is required" });
+    if (!podcastId) {
+      return res.status(400).json({ message: "Podcast ID is required" });
     }
 
     const project = await Project.findOne({
@@ -114,18 +128,21 @@ const deletePodcast = async (req, res) => {
     });
 
     if (!project) {
-      return res.status(404).json({ message: "Project not found or unauthorized" });
+      return res
+        .status(404)
+        .json({ message: "Project not found or unauthorized" });
     }
 
     const initialLength = project.podcastLinks.length;
 
     project.podcastLinks = project.podcastLinks.filter(
-      (podcast) =>
-        podcast.podcastName.trim().toLowerCase() !== podcastName.trim().toLowerCase()
+      (podcast) => podcast._id.toString() !== podcastId
     );
 
     if (project.podcastLinks.length === initialLength) {
-      return res.status(404).json({ message: "Podcast not found in the project" });
+      return res
+        .status(404)
+        .json({ message: "Podcast not found in the project" });
     }
 
     const updatedProject = await project.save();
@@ -143,23 +160,19 @@ const deletePodcast = async (req, res) => {
   }
 };
 
-
 const updatePodcast = async (req, res) => {
   try {
-    const { projectId, podcastName } = req.params;
-    const { newPodcastName, newPodcastTranscript } = req.body;
+    const { projectId, podcastId } = req.params;
+    const { podcastTranscript } = req.body;
 
-    // Validate user
     if (!req.user || !req.user.id) {
       return res.status(401).json({ message: "Unauthorized user" });
     }
 
-    // Validate body
-    if (!newPodcastName && !newPodcastTranscript) {
+    if (!podcastTranscript) {
       return res.status(400).json({ message: "Nothing to update" });
     }
 
-    // Find the project
     const project = await Project.findOne({
       _id: projectId,
       createdBy: req.user.id,
@@ -169,37 +182,19 @@ const updatePodcast = async (req, res) => {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    const podcast = project.podcastLinks.find(
-      (p) => p.podcastName.trim().toLowerCase() === podcastName.trim().toLowerCase()
-    );
+    const podcast = project.podcastLinks.id(podcastId);
 
     if (!podcast) {
       return res.status(404).json({ message: "Podcast not found in project" });
     }
 
-    // Check for duplicate podcast name if name is being updated
-    if (newPodcastName) {
-      const nameExists = project.podcastLinks.some(
-        (p) =>
-          p.podcastName.trim().toLowerCase() === newPodcastName.trim().toLowerCase() &&
-          p !== podcast
-      );
-      if (nameExists) {
-        return res.status(409).json({ message: "Another podcast with this name already exists" });
-      }
-      podcast.podcastName = newPodcastName.trim();
-    }
+    podcast.podcastTranscript = podcastTranscript.trim();
 
-    // Update transcript
-    if (newPodcastTranscript) {
-      podcast.podcastTranscript = newPodcastTranscript.trim();
-    }
-
-    const updatedProject = await project.save();
+    await project.save();
 
     return res.status(200).json({
       message: "Podcast updated successfully",
-      project: updatedProject,
+      podcast,
     });
   } catch (error) {
     console.error("Error updating podcast:", error);
@@ -209,7 +204,6 @@ const updatePodcast = async (req, res) => {
     });
   }
 };
-
 
 // get all projects
 const getAllProjects = async (req, res) => {
@@ -233,7 +227,41 @@ const getAllProjects = async (req, res) => {
   }
 };
 
+const getPodcastEpisodes = async (req, res) => {
+  try {
+    const { projectId } = req.params;
 
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: "Unauthorized user" });
+    }
 
+    const project = await Project.findOne({
+      _id: projectId,
+      createdBy: req.user.id,
+    });
 
-module.exports = { createNewProject, uploadPodcast , deletePodcast, updatePodcast, getAllProjects };
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    return res.status(200).json({
+      message: "Podcast episodes retrieved successfully",
+      podcastLinks: project.podcastLinks,
+    });
+  } catch (error) {
+    console.error("Error retrieving podcast episodes:", error);
+    return res.status(500).json({
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = {
+  createNewProject,
+  uploadPodcast,
+  deletePodcast,
+  updatePodcast,
+  getAllProjects,
+  getPodcastEpisodes,
+};
