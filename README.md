@@ -1,1 +1,1 @@
-# Skill-Lama-Project
+# Skai-Lama-Project
