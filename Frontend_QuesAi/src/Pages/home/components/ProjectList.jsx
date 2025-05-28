@@ -1,5 +1,5 @@
 import { PlusCircleIcon } from "lucide-react";
-import { formatTimeAgo } from "../../../constants/utility";
+import { formatDistanceToNow } from "date-fns";
 import "./ProjectList.css";
 import { useNavigate } from "react-router";
 
@@ -53,7 +53,7 @@ const ProjectList = ({ projects, handleModal }) => {
               <h3 className="project-name">{project.projectName}</h3>
               <p>{project.podcastLinks?.length || 0} Files</p>
               <span className="project-updated">
-                Last edited {formatTimeAgo(project.lastEdited)}
+                Last edited {formatDistanceToNow(new Date(project.updatedAt))}
               </span>
             </div>
           </li>
