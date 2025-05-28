@@ -13,7 +13,7 @@ import { AuthEndPoints, ProjectEndPoints } from "../../constants/endpoints.js";
 import "./styles/styles.css";
 import EditTranscript from "./components/EditTranscript.jsx";
 import AccountSettings from "./components/AccountSettings.jsx";
-import YoutubeUploadModal from "./Modals/YouTubeModal/YouTubeUploadModal.jsx";
+import YoutubeUploadModal from "./Modals/YouTubeModal/YoutubeUploadModal.jsx";
 
 const AddPodcast = () => {
   const { projectId } = useParams();
